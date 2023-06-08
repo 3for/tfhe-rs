@@ -20,3 +20,4 @@ pub mod fft_impl;
 
 #[cfg(test)]
 pub mod keycache;
+pub mod ntt_impl;
