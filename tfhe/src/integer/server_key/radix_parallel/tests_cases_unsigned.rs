@@ -3381,10 +3381,12 @@ where
     let (cks, sks) = KEY_CACHE.get_from_params(param, IntegerKeyKind::Radix);
     let sks = Arc::new(sks);
 
-    let cks = RadixClientKey::from((cks, NB_CTXT));
+    let nb_ctxt = 4;
+
+    let cks = RadixClientKey::from((cks, nb_ctxt));
 
     // message_modulus^vec_length
-    let modulus = cks.parameters().message_modulus().0.pow(NB_CTXT as u32) as u64;
+    let modulus = cks.parameters().message_modulus().0.pow(nb_ctxt as u32) as u64;
 
     executor.setup(&cks, sks.clone());
 

@@ -276,7 +276,7 @@ fn integer_smart_min_parallelized_u8(params: crate::shortint::ClassicPBSParamete
         params,
         1,
         ServerKey::smart_min_parallelized,
-        std::cmp::max::<u8>,
+        std::cmp::min::<u8>,
     );
 }
 

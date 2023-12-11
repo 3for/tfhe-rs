@@ -48,7 +48,7 @@ create_parametrized_test! {
     }
 }
 #[cfg(feature = "__coverage")]
-create_parametrized_test!(integer_smart_add_128_bits);
+create_parametrized_test!(integer_smart_add_128_bits); // FIXME this test is very slow (too much iterations in the function)
 create_parametrized_test!(integer_unchecked_bitand);
 create_parametrized_test!(integer_unchecked_bitor);
 create_parametrized_test!(integer_unchecked_bitxor);

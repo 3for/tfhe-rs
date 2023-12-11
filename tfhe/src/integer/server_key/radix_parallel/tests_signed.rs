@@ -16,6 +16,8 @@ const NB_TESTS: usize = 30;
 /// meant for test where the function tested is more expensive
 #[cfg(not(feature = "__coverage"))]
 const NB_TESTS_SMALLER: usize = 10;
+#[cfg(not(feature = "__coverage"))]
+const NB_TESTS_UNCHECKED: usize = NB_TESTS;
 
 // Use lower numbers for coverage to ensure fast tests to counter balance slowdown due to code
 // instrumentation
@@ -23,6 +25,9 @@ const NB_TESTS_SMALLER: usize = 10;
 const NB_TESTS: usize = 1;
 #[cfg(feature = "__coverage")]
 const NB_TESTS_SMALLER: usize = 1;
+/// Unchecked test cases needs a minimum number of tests of 4 in order to provide guarantees.
+#[cfg(feature = "__coverage")]
+const NB_TESTS_UNCHECKED: usize = 4;
 
 #[cfg(not(feature = "__coverage"))]
 const NB_CTXT: usize = 4;
@@ -63,6 +68,7 @@ macro_rules! create_parametrized_test{
             PARAM_MULTI_BIT_MESSAGE_3_CARRY_3_GROUP_2_KS_PBS,
             #[cfg(not(feature = "__coverage"))]
             PARAM_MULTI_BIT_MESSAGE_1_CARRY_1_GROUP_3_KS_PBS,
+            #[cfg(not(feature = "__coverage"))]
             PARAM_MULTI_BIT_MESSAGE_2_CARRY_2_GROUP_3_KS_PBS,
             #[cfg(not(feature = "__coverage"))]
             PARAM_MULTI_BIT_MESSAGE_3_CARRY_3_GROUP_3_KS_PBS
@@ -560,8 +566,7 @@ fn integer_signed_unchecked_add(param: impl Into<PBSParameters>) {
         assert_eq!(clear_res, expected_clear);
     }
 
-    for (clear_0, clear_1) in create_iterator_of_signed_random_pairs::<NB_TESTS>(&mut rng, modulus)
-    {
+    for (clear_0, clear_1) in create_iterator_of_signed_random_pairs::<NB_TESTS_UNCHECKED>(&mut rng, modulus) {
         let ctxt_0 = cks.encrypt_signed_radix(clear_0, NB_CTXT);
         let ctxt_1 = cks.encrypt_signed_radix(clear_1, NB_CTXT);
 
@@ -714,7 +719,9 @@ fn integer_signed_unchecked_neg(param: impl Into<PBSParameters>) {
         assert_eq!(clear_result, -modulus);
     }
 
-    for (clear_0, _) in create_iterator_of_signed_random_pairs::<NB_TESTS>(&mut rng, modulus) {
+    for (clear_0, _) in
+        create_iterator_of_signed_random_pairs::<NB_TESTS_UNCHECKED>(&mut rng, modulus)
+    {
         let ctxt_0 = cks.encrypt_signed_radix(clear_0, NB_CTXT);
 
         let ct_res = sks.unchecked_neg(&ctxt_0);
@@ -756,7 +763,8 @@ fn integer_signed_unchecked_sub(param: impl Into<PBSParameters>) {
         assert_eq!(clear_res, expected_clear);
     }
 
-    for (clear_0, clear_1) in create_iterator_of_signed_random_pairs::<NB_TESTS>(&mut rng, modulus)
+    for (clear_0, clear_1) in
+        create_iterator_of_signed_random_pairs::<NB_TESTS_UNCHECKED>(&mut rng, modulus)
     {
         let ctxt_0 = cks.encrypt_signed_radix(clear_0, NB_CTXT);
         let ctxt_1 = cks.encrypt_signed_radix(clear_1, NB_CTXT);
@@ -877,7 +885,8 @@ fn integer_signed_unchecked_mul(param: impl Into<PBSParameters>) {
 
     let modulus = (cks.parameters().message_modulus().0.pow(NB_CTXT as u32) / 2) as i64;
 
-    for (clear_0, clear_1) in create_iterator_of_signed_random_pairs::<NB_TESTS>(&mut rng, modulus)
+    for (clear_0, clear_1) in
+        create_iterator_of_signed_random_pairs::<NB_TESTS_UNCHECKED>(&mut rng, modulus)
     {
         let ctxt_0 = cks.encrypt_signed_radix(clear_0, NB_CTXT);
         let ctxt_1 = cks.encrypt_signed_radix(clear_1, NB_CTXT);
@@ -896,7 +905,8 @@ fn integer_signed_unchecked_bitand(param: impl Into<PBSParameters>) {
 
     let modulus = (cks.parameters().message_modulus().0.pow(NB_CTXT as u32) / 2) as i64;
 
-    for (clear_0, clear_1) in create_iterator_of_signed_random_pairs::<NB_TESTS>(&mut rng, modulus)
+    for (clear_0, clear_1) in
+        create_iterator_of_signed_random_pairs::<NB_TESTS_UNCHECKED>(&mut rng, modulus)
     {
         let ctxt_0 = cks.encrypt_signed_radix(clear_0, NB_CTXT);
         let ctxt_1 = cks.encrypt_signed_radix(clear_1, NB_CTXT);
@@ -915,7 +925,8 @@ fn integer_signed_unchecked_bitor(param: impl Into<PBSParameters>) {
 
     let modulus = (cks.parameters().message_modulus().0.pow(NB_CTXT as u32) / 2) as i64;
 
-    for (clear_0, clear_1) in create_iterator_of_signed_random_pairs::<NB_TESTS>(&mut rng, modulus)
+    for (clear_0, clear_1) in
+        create_iterator_of_signed_random_pairs::<NB_TESTS_UNCHECKED>(&mut rng, modulus)
     {
         let ctxt_0 = cks.encrypt_signed_radix(clear_0, NB_CTXT);
         let ctxt_1 = cks.encrypt_signed_radix(clear_1, NB_CTXT);
@@ -934,7 +945,8 @@ fn integer_signed_unchecked_bitxor(param: impl Into<PBSParameters>) {
 
     let modulus = (cks.parameters().message_modulus().0.pow(NB_CTXT as u32) / 2) as i64;
 
-    for (clear_0, clear_1) in create_iterator_of_signed_random_pairs::<NB_TESTS>(&mut rng, modulus)
+    for (clear_0, clear_1) in
+        create_iterator_of_signed_random_pairs::<NB_TESTS_UNCHECKED>(&mut rng, modulus)
     {
         let ctxt_0 = cks.encrypt_signed_radix(clear_0, NB_CTXT);
         let ctxt_1 = cks.encrypt_signed_radix(clear_1, NB_CTXT);

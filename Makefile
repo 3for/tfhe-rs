@@ -443,7 +443,7 @@ test_integer_cov: install_rs_check_toolchain install_tarpaulin
 		--implicit-test-threads \
 		--exclude-files $(COVERAGE_EXCLUDED_FILES) \
 		--features=$(TARGET_ARCH_FEATURE),integer,internal-keycache,__coverage \
-		-p $(TFHE_SPEC) -- --nocapture integer::
+		-p $(TFHE_SPEC) -- integer::
 
 .PHONY: test_high_level_api # Run all the tests for high_level_api
 test_high_level_api: install_rs_build_toolchain
